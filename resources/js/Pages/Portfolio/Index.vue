@@ -1,5 +1,5 @@
 <template>
-    <div class="relative min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
+    <div class="relative min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 scroll-smooth">
         <canvas ref="threeCanvas" class="fixed inset-0 w-full h-full -z-10"></canvas>
         
         <div class="relative z-10">
