@@ -15,7 +15,13 @@ class PortfolioController extends Controller
     {
         $projects = Project::where('is_published', true)
             ->orderBy('order')
-            ->get();
+            ->get()
+            ->map(function ($project) {
+                if ($project->image) {
+                    $project->image = asset('storage/' . $project->image);
+                }
+                return $project;
+            });
         
         $skills = Skill::where('is_published', true)
             ->orderBy('order')
@@ -43,7 +49,13 @@ class PortfolioController extends Controller
     {
         $projects = Project::where('is_published', true)
             ->orderBy('order')
-            ->get();
+            ->get()
+            ->map(function ($project) {
+                if ($project->image) {
+                    $project->image = asset('storage/' . $project->image);
+                }
+                return $project;
+            });
         
         $experiences = Experience::where('is_published', true)
             ->orderBy('start_date', 'desc')

@@ -30,7 +30,23 @@ class ProjectResource extends Resource
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
-                    ->image(),
+                    ->image()
+                    ->disk('public')
+                    ->directory('projects')
+                    ->visibility('public')
+                    ->maxSize(5120)
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'])
+                    ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        null,
+                        '16:9',
+                        '4:3',
+                        '1:1',
+                    ])
+                    ->downloadable()
+                    ->openable()
+                    ->previewable(true)
+                    ->moveFiles(),
                 Forms\Components\TextInput::make('technologies'),
                 Forms\Components\TextInput::make('github_url')
                     ->maxLength(255),

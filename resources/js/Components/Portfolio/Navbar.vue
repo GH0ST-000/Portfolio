@@ -43,11 +43,60 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const menuOpen = ref(false);
 
 const toggleMenu = () => {
     menuOpen.value = !menuOpen.value;
 };
+
+// Optimized smooth scroll function - starts instantly
+const smoothScrollTo = (targetId) => {
+    const target = document.querySelector(targetId);
+    if (!target) return;
+    
+    const startPosition = window.pageYOffset;
+    const targetPosition = target.getBoundingClientRect().top + startPosition;
+    const distance = targetPosition - startPosition;
+    const duration = 1000; // Slightly faster for better responsiveness
+    const startTime = performance.now();
+    
+    // Optimized easing function
+    const easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    
+    const scroll = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeProgress = easeInOutCubic(progress);
+        
+        window.scrollTo(0, startPosition + distance * easeProgress);
+        
+        if (progress < 1) {
+            requestAnimationFrame(scroll);
+        }
+    };
+    
+    // Start immediately
+    requestAnimationFrame(scroll);
+};
+
+// Handle click with immediate response
+const handleNavClick = (event) => {
+    const href = event.currentTarget.getAttribute('href');
+    if (href && href.startsWith('#')) {
+        event.preventDefault();
+        event.stopPropagation();
+        menuOpen.value = false;
+        smoothScrollTo(href);
+    }
+};
+
+onMounted(() => {
+    // Attach listeners to all navigation links
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+    navLinks.forEach(link => {
+        link.addEventListener('click', handleNavClick, { passive: false });
+    });
+});
 </script>

@@ -10,12 +10,12 @@
         <div class="container mx-auto px-6 relative z-10">
             <div class="text-center">
                 <!-- Glowing badge -->
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 backdrop-blur-xl border border-indigo-500/20 mb-8 animate-float">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-green-500/10 to-emerald-500/10 backdrop-blur-xl border border-green-500/20 mb-8 animate-float">
                     <span class="relative flex h-3 w-3">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                     </span>
-                    <span class="text-sm font-medium bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                    <span class="text-sm font-medium bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
                         Available for opportunities
                     </span>
                 </div>
@@ -24,7 +24,7 @@
                     <h1 class="text-6xl md:text-8xl lg:text-9xl font-black mb-6 relative inline-block">
                         <span class="absolute inset-0 blur-3xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-50 animate-pulse-slow"></span>
                         <span class="relative bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
-                            Hi, I'm Your Name
+                            Hi, I'm Luka
                         </span>
                     </h1>
                     <div class="text-3xl md:text-5xl lg:text-6xl mb-6 font-light relative">
@@ -136,8 +136,52 @@ const typeEffect = () => {
     setTimeout(typeEffect, speed);
 };
 
+// Optimized smooth scroll - starts instantly
+const smoothScrollTo = (targetId) => {
+    const target = document.querySelector(targetId);
+    if (!target) return;
+    
+    const startPosition = window.pageYOffset;
+    const targetPosition = target.getBoundingClientRect().top + startPosition;
+    const distance = targetPosition - startPosition;
+    const duration = 1000;
+    const startTime = performance.now();
+    
+    const easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    
+    const scroll = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeProgress = easeInOutCubic(progress);
+        
+        window.scrollTo(0, startPosition + distance * easeProgress);
+        
+        if (progress < 1) {
+            requestAnimationFrame(scroll);
+        }
+    };
+    
+    requestAnimationFrame(scroll);
+};
+
+// Handle click with immediate response
+const handleNavClick = (event) => {
+    const href = event.currentTarget.getAttribute('href');
+    if (href && href.startsWith('#')) {
+        event.preventDefault();
+        event.stopPropagation();
+        smoothScrollTo(href);
+    }
+};
+
 onMounted(() => {
     typeEffect();
+    
+    // Attach listeners for instant response
+    const heroLinks = document.querySelectorAll('#home a[href^="#"]');
+    heroLinks.forEach(link => {
+        link.addEventListener('click', handleNavClick, { passive: false });
+    });
 });
 </script>
 
