@@ -175,7 +175,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                                     </svg>
                                     <span v-if="!form.processing">Send Message</span>
-                                    <span v-else">Sending...</span>
+                                    <span v-else>Sending...</span>
                                 </span>
                             </button>
                         </div>
@@ -205,30 +205,15 @@ const handlePricingSelected = (event) => {
     if (!form.message) {
         form.message = `Hi! I'm interested in the ${plan} pricing plan. Please provide more details about getting started.`;
     }
+    
+    // Clear URL parameters immediately to prevent re-filling on refresh
+    if (window.history.replaceState) {
+        window.history.replaceState({}, document.title, window.location.pathname + '#contact');
+    }
 };
 
 onMounted(() => {
-    // Check for URL parameters to auto-fill subject
-    const urlParams = new URLSearchParams(window.location.search);
-    const hash = window.location.hash;
-    
-    // Check if hash contains query parameters
-    if (hash.includes('?')) {
-        const hashParams = new URLSearchParams(hash.split('?')[1]);
-        const pricingPlan = hashParams.get('plan');
-        
-        if (pricingPlan) {
-            form.subject = `Interested in ${pricingPlan} Plan`;
-        }
-    } else {
-        // Check regular URL parameters
-        const pricingPlan = urlParams.get('plan');
-        if (pricingPlan) {
-            form.subject = `Interested in ${pricingPlan} Plan`;
-        }
-    }
-    
-    // Listen for pricing selection event
+    // Listen for pricing selection event (only triggered on button click, not on refresh)
     window.addEventListener('pricing-selected', handlePricingSelected);
 });
 
@@ -238,9 +223,11 @@ onUnmounted(() => {
 
 const submitForm = () => {
     form.post(route('contact.store'), {
-        preserveScroll: true,
+        preserveScroll: false,
         onSuccess: () => {
             form.reset();
+            // Scroll to top to show success message
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             // Clear URL parameters after successful submission
             if (window.history.replaceState) {
                 window.history.replaceState({}, document.title, window.location.pathname + window.location.hash.split('?')[0]);

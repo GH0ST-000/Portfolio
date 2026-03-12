@@ -3,11 +3,7 @@
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <p class="text-gray-400 text-center md:text-left mb-4 md:mb-0">
-                    © {{ currentYear }} Portfolio. Built with 
-                    <span class="text-indigo-400">Laravel</span>, 
-                    <span class="text-indigo-400">Vue.js</span>, 
-                    <span class="text-indigo-400">Tailwind CSS</span>, and 
-                    <span class="text-indigo-400">Three.js</span>
+                    © {{ currentYear }}
                 </p>
                 
                 <div class="flex items-center gap-6">
