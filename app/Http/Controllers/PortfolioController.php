@@ -2,41 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
-use App\Models\Skill;
-use App\Models\Experience;
-use App\Models\Contact;
-use Illuminate\Http\Request;
+use App\Actions\Portfolio\GetPublishedProjectsAction;
+use App\Actions\Portfolio\GetPublishedSkillsAction;
+use App\Actions\Portfolio\GetPublishedExperiencesAction;
+use App\Actions\Portfolio\StoreContactAction;
+use App\Http\Requests\StoreContactRequest;
 use Inertia\Inertia;
 
 class PortfolioController extends Controller
 {
+    public function __construct(
+        private GetPublishedProjectsAction $getPublishedProjectsAction,
+        private GetPublishedSkillsAction $getPublishedSkillsAction,
+        private GetPublishedExperiencesAction $getPublishedExperiencesAction,
+        private StoreContactAction $storeContactAction
+    ) {}
+
     public function index()
     {
-        $projects = Project::where('is_published', true)
-            ->orderBy('order')
-            ->get()
-            ->map(function ($project) {
-                if ($project->image) {
-                    $project->image = asset('storage/' . $project->image);
-                }
-                return $project;
-            });
-        
-        $skills = Skill::where('is_published', true)
-            ->orderBy('order')
-            ->get()
-            ->groupBy('category');
-        
-        $experiences = Experience::where('is_published', true)
-            ->orderBy('start_date', 'desc')
-            ->get()
-            ->map(function ($experience) {
-                if ($experience->company_logo) {
-                    $experience->company_logo = asset('storage/' . $experience->company_logo);
-                }
-                return $experience;
-            });
+        $projects = $this->getPublishedProjectsAction->execute();
+        $skills = $this->getPublishedSkillsAction->execute();
+        $experiences = $this->getPublishedExperiencesAction->execute();
 
         return Inertia::render('Portfolio/Index', [
             'projects' => $projects,
@@ -47,25 +33,8 @@ class PortfolioController extends Controller
 
     public function interactive3D()
     {
-        $projects = Project::where('is_published', true)
-            ->orderBy('order')
-            ->get()
-            ->map(function ($project) {
-                if ($project->image) {
-                    $project->image = asset('storage/' . $project->image);
-                }
-                return $project;
-            });
-        
-        $experiences = Experience::where('is_published', true)
-            ->orderBy('start_date', 'desc')
-            ->get()
-            ->map(function ($experience) {
-                if ($experience->company_logo) {
-                    $experience->company_logo = asset('storage/' . $experience->company_logo);
-                }
-                return $experience;
-            });
+        $projects = $this->getPublishedProjectsAction->execute();
+        $experiences = $this->getPublishedExperiencesAction->execute();
 
         return Inertia::render('Portfolio/Interactive3D', [
             'projects' => $projects,
@@ -75,25 +44,8 @@ class PortfolioController extends Controller
 
     public function cinematicJourney()
     {
-        $experiences = Experience::where('is_published', true)
-            ->orderBy('start_date', 'asc') // Oldest first for story
-            ->get()
-            ->map(function ($experience) {
-                if ($experience->company_logo) {
-                    $experience->company_logo = asset('storage/' . $experience->company_logo);
-                }
-                return $experience;
-            });
-
-        $projects = Project::where('is_published', true)
-            ->orderBy('order')
-            ->get()
-            ->map(function ($project) {
-                if ($project->image) {
-                    $project->image = asset('storage/' . $project->image);
-                }
-                return $project;
-            });
+        $experiences = $this->getPublishedExperiencesAction->execute('start_date', 'asc');
+        $projects = $this->getPublishedProjectsAction->execute();
 
         return Inertia::render('Portfolio/CinematicJourney', [
             'experiences' => $experiences,
@@ -101,16 +53,9 @@ class PortfolioController extends Controller
         ]);
     }
 
-    public function storeContact(Request $request)
+    public function storeContact(StoreContactRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'subject' => 'nullable|string|max:255',
-            'message' => 'required|string',
-        ]);
-
-        Contact::create($validated);
+        $this->storeContactAction->execute($request->validated());
 
         return back()->with('success', 'Thank you for your message! I will get back to you soon.');
     }
