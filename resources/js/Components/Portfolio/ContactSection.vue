@@ -188,6 +188,7 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
+import { onMounted, onUnmounted } from 'vue';
 
 const form = useForm({
     name: '',
@@ -196,11 +197,54 @@ const form = useForm({
     message: '',
 });
 
+const handlePricingSelected = (event) => {
+    const { plan, price, period } = event.detail;
+    form.subject = `Interested in ${plan} Plan ($${price}/${period})`;
+    
+    // Optional: Also pre-fill message
+    if (!form.message) {
+        form.message = `Hi! I'm interested in the ${plan} pricing plan. Please provide more details about getting started.`;
+    }
+};
+
+onMounted(() => {
+    // Check for URL parameters to auto-fill subject
+    const urlParams = new URLSearchParams(window.location.search);
+    const hash = window.location.hash;
+    
+    // Check if hash contains query parameters
+    if (hash.includes('?')) {
+        const hashParams = new URLSearchParams(hash.split('?')[1]);
+        const pricingPlan = hashParams.get('plan');
+        
+        if (pricingPlan) {
+            form.subject = `Interested in ${pricingPlan} Plan`;
+        }
+    } else {
+        // Check regular URL parameters
+        const pricingPlan = urlParams.get('plan');
+        if (pricingPlan) {
+            form.subject = `Interested in ${pricingPlan} Plan`;
+        }
+    }
+    
+    // Listen for pricing selection event
+    window.addEventListener('pricing-selected', handlePricingSelected);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('pricing-selected', handlePricingSelected);
+});
+
 const submitForm = () => {
     form.post(route('contact.store'), {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
+            // Clear URL parameters after successful submission
+            if (window.history.replaceState) {
+                window.history.replaceState({}, document.title, window.location.pathname + window.location.hash.split('?')[0]);
+            }
         },
     });
 };

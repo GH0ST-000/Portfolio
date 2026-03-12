@@ -2,16 +2,17 @@
     <nav class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-gray-900/70 border-b border-gray-800">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <a href="#home" class="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
+                <a href="#home" @click.prevent="smoothScrollTo('#home')" class="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
                     Portfolio
                 </a>
                 
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#about" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">About</a>
-                    <a href="#skills" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Skills</a>
-                    <a href="#projects" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Projects</a>
-                    <a href="#experience" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Experience</a>
-                    <a href="#contact" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Contact</a>
+                    <a href="#about" @click.prevent="smoothScrollTo('#about')" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">About</a>
+                    <a href="#skills" @click.prevent="smoothScrollTo('#skills')" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Skills</a>
+                    <a href="#projects" @click.prevent="smoothScrollTo('#projects')" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Projects</a>
+                    <a href="#experience" @click.prevent="smoothScrollTo('#experience')" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Experience</a>
+                    <a href="#pricing" @click.prevent="smoothScrollTo('#pricing')" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Pricing</a>
+                    <a href="#contact" @click.prevent="smoothScrollTo('#contact')" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Contact</a>
                     <a :href="route('portfolio.3d')" class="relative group px-4 py-2 rounded-xl overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 group-hover:scale-105 transition-transform"></div>
                         <span class="relative text-white font-semibold flex items-center gap-2">
@@ -32,18 +33,19 @@
             </div>
             
             <div v-show="menuOpen" class="md:hidden mt-4 space-y-2 pb-4">
-                <a href="#about" @click="menuOpen = false" class="block text-gray-300 hover:text-indigo-400 transition-colors duration-300">About</a>
-                <a href="#skills" @click="menuOpen = false" class="block text-gray-300 hover:text-indigo-400 transition-colors duration-300">Skills</a>
-                <a href="#projects" @click="menuOpen = false" class="block text-gray-300 hover:text-indigo-400 transition-colors duration-300">Projects</a>
-                <a href="#experience" @click="menuOpen = false" class="block text-gray-300 hover:text-indigo-400 transition-colors duration-300">Experience</a>
-                <a href="#contact" @click="menuOpen = false" class="block text-gray-300 hover:text-indigo-400 transition-colors duration-300">Contact</a>
+                <a href="#about" @click.prevent="smoothScrollTo('#about'); menuOpen = false" class="block text-gray-300 hover:text-indigo-400 transition-colors duration-300">About</a>
+                <a href="#skills" @click.prevent="smoothScrollTo('#skills'); menuOpen = false" class="block text-gray-300 hover:text-indigo-400 transition-colors duration-300">Skills</a>
+                <a href="#projects" @click.prevent="smoothScrollTo('#projects'); menuOpen = false" class="block text-gray-300 hover:text-indigo-400 transition-colors duration-300">Projects</a>
+                <a href="#experience" @click.prevent="smoothScrollTo('#experience'); menuOpen = false" class="block text-gray-300 hover:text-indigo-400 transition-colors duration-300">Experience</a>
+                <a href="#pricing" @click.prevent="smoothScrollTo('#pricing'); menuOpen = false" class="block text-gray-300 hover:text-indigo-400 transition-colors duration-300">Pricing</a>
+                <a href="#contact" @click.prevent="smoothScrollTo('#contact'); menuOpen = false" class="block text-gray-300 hover:text-indigo-400 transition-colors duration-300">Contact</a>
             </div>
         </div>
     </nav>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 
 const menuOpen = ref(false);
 
@@ -51,21 +53,29 @@ const toggleMenu = () => {
     menuOpen.value = !menuOpen.value;
 };
 
-// Optimized smooth scroll function - starts instantly
+// Instant smooth scroll function
 const smoothScrollTo = (targetId) => {
     const target = document.querySelector(targetId);
     if (!target) return;
     
+    // Get the target position immediately
+    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
     const startPosition = window.pageYOffset;
-    const targetPosition = target.getBoundingClientRect().top + startPosition;
     const distance = targetPosition - startPosition;
-    const duration = 1000; // Slightly faster for better responsiveness
-    const startTime = performance.now();
+    const duration = 800; // Smooth but responsive
     
-    // Optimized easing function
-    const easeInOutCubic = (t) => t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+    let startTime = null;
     
-    const scroll = (currentTime) => {
+    // Smooth easing function
+    const easeInOutCubic = (t) => {
+        return t < 0.5 
+            ? 4 * t * t * t 
+            : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    };
+    
+    const animation = (currentTime) => {
+        if (startTime === null) startTime = currentTime;
+        
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
         const easeProgress = easeInOutCubic(progress);
@@ -73,30 +83,11 @@ const smoothScrollTo = (targetId) => {
         window.scrollTo(0, startPosition + distance * easeProgress);
         
         if (progress < 1) {
-            requestAnimationFrame(scroll);
+            requestAnimationFrame(animation);
         }
     };
     
-    // Start immediately
-    requestAnimationFrame(scroll);
+    // Start animation immediately
+    requestAnimationFrame(animation);
 };
-
-// Handle click with immediate response
-const handleNavClick = (event) => {
-    const href = event.currentTarget.getAttribute('href');
-    if (href && href.startsWith('#')) {
-        event.preventDefault();
-        event.stopPropagation();
-        menuOpen.value = false;
-        smoothScrollTo(href);
-    }
-};
-
-onMounted(() => {
-    // Attach listeners to all navigation links
-    const navLinks = document.querySelectorAll('nav a[href^="#"]');
-    navLinks.forEach(link => {
-        link.addEventListener('click', handleNavClick, { passive: false });
-    });
-});
 </script>
