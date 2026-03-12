@@ -50,10 +50,12 @@ class PortfolioController extends Controller
     {
         $experiences = $this->getPublishedExperiencesAction->execute('start_date', 'asc');
         $projects = $this->getPublishedProjectsAction->execute();
+        $skills = $this->getPublishedSkillsAction->execute();
 
         return Inertia::render('Portfolio/CinematicJourney', [
             'experiences' => $experiences,
             'projects' => $projects,
+            'skills' => $skills,
         ]);
     }
 
