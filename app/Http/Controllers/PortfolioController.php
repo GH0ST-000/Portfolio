@@ -24,7 +24,7 @@ class PortfolioController extends Controller
     {
         $projects = $this->getPublishedProjectsAction->execute();
         $skills = $this->getPublishedSkillsAction->execute();
-        $experiences = $this->getPublishedExperiencesAction->execute();
+        $experiences = $this->getPublishedExperiencesAction->execute('order', 'desc');
         $pricings = $this->getActivePricingsAction->execute();
 
         return Inertia::render('Portfolio/Index', [
@@ -38,7 +38,7 @@ class PortfolioController extends Controller
     public function interactive3D()
     {
         $projects = $this->getPublishedProjectsAction->execute();
-        $experiences = $this->getPublishedExperiencesAction->execute();
+        $experiences = $this->getPublishedExperiencesAction->execute('order', 'desc');
 
         return Inertia::render('Portfolio/Interactive3D', [
             'projects' => $projects,
