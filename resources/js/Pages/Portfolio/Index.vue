@@ -15,6 +15,8 @@
             
             <ExperienceSection :experiences="experiences" />
             
+            <PricingSection :pricings="pricings" />
+            
             <ContactSection />
             
             <Footer />
@@ -31,6 +33,7 @@ import AboutSection from '@/Components/Portfolio/AboutSection.vue';
 import SkillsSection from '@/Components/Portfolio/SkillsSection.vue';
 import ProjectsSection from '@/Components/Portfolio/ProjectsSection.vue';
 import ExperienceSection from '@/Components/Portfolio/ExperienceSection.vue';
+import PricingSection from '@/Components/Portfolio/PricingSection.vue';
 import ContactSection from '@/Components/Portfolio/ContactSection.vue';
 import Footer from '@/Components/Portfolio/Footer.vue';
 
@@ -38,6 +41,7 @@ const props = defineProps({
     projects: Array,
     skills: Object,
     experiences: Array,
+    pricings: Array,
 });
 
 const threeCanvas = ref(null);

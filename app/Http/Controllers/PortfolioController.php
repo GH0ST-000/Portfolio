@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Portfolio\GetPublishedProjectsAction;
 use App\Actions\Portfolio\GetPublishedSkillsAction;
 use App\Actions\Portfolio\GetPublishedExperiencesAction;
+use App\Actions\Portfolio\GetActivePricingsAction;
 use App\Actions\Portfolio\StoreContactAction;
 use App\Http\Requests\StoreContactRequest;
 use Inertia\Inertia;
@@ -15,6 +16,7 @@ class PortfolioController extends Controller
         private GetPublishedProjectsAction $getPublishedProjectsAction,
         private GetPublishedSkillsAction $getPublishedSkillsAction,
         private GetPublishedExperiencesAction $getPublishedExperiencesAction,
+        private GetActivePricingsAction $getActivePricingsAction,
         private StoreContactAction $storeContactAction
     ) {}
 
@@ -23,11 +25,13 @@ class PortfolioController extends Controller
         $projects = $this->getPublishedProjectsAction->execute();
         $skills = $this->getPublishedSkillsAction->execute();
         $experiences = $this->getPublishedExperiencesAction->execute();
+        $pricings = $this->getActivePricingsAction->execute();
 
         return Inertia::render('Portfolio/Index', [
             'projects' => $projects,
             'skills' => $skills,
             'experiences' => $experiences,
+            'pricings' => $pricings,
         ]);
     }
 
