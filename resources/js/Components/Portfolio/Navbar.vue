@@ -13,13 +13,13 @@
                     <a href="#experience" @click.prevent="smoothScrollTo('#experience')" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Experience</a>
                     <a href="#pricing" @click.prevent="smoothScrollTo('#pricing')" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Pricing</a>
                     <a href="#contact" @click.prevent="smoothScrollTo('#contact')" class="text-gray-300 hover:text-indigo-400 transition-colors duration-300">Contact</a>
-                    <a :href="route('portfolio.3d')" class="relative group px-4 py-2 rounded-xl overflow-hidden">
+                    <a :href="route('portfolio.cinematic')" class="relative group px-4 py-2 rounded-xl overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 group-hover:scale-105 transition-transform"></div>
                         <span class="relative text-white font-semibold flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"/>
                             </svg>
-                            3D Experience
+                            3D Journey
                         </span>
                     </a>
                 </div>
