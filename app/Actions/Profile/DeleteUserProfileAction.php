@@ -10,7 +10,7 @@ class DeleteUserProfileAction
     public function execute(User $user): void
     {
         Auth::logout();
-        
+
         $user->delete();
     }
 }

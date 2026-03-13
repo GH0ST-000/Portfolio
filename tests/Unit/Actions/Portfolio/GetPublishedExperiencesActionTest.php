@@ -20,7 +20,7 @@ class GetPublishedExperiencesActionTest extends TestCase
             'is_published' => false,
         ]);
 
-        $action = new GetPublishedExperiencesAction();
+        $action = new GetPublishedExperiencesAction;
         $experiences = $action->execute();
 
         $this->assertCount(1, $experiences);
@@ -47,7 +47,7 @@ class GetPublishedExperiencesActionTest extends TestCase
             'start_date' => '2021-01-01',
         ]);
 
-        $action = new GetPublishedExperiencesAction();
+        $action = new GetPublishedExperiencesAction;
         $experiences = $action->execute();
 
         $this->assertEquals('Recent Company', $experiences->first()->company);
@@ -68,7 +68,7 @@ class GetPublishedExperiencesActionTest extends TestCase
             'start_date' => '2023-01-01',
         ]);
 
-        $action = new GetPublishedExperiencesAction();
+        $action = new GetPublishedExperiencesAction;
         $experiences = $action->execute('start_date', 'asc');
 
         $this->assertEquals('Old Company', $experiences->first()->company);
@@ -83,7 +83,7 @@ class GetPublishedExperiencesActionTest extends TestCase
             'company_logo' => 'logos/company-logo.jpg',
         ]);
 
-        $action = new GetPublishedExperiencesAction();
+        $action = new GetPublishedExperiencesAction;
         $experiences = $action->execute();
 
         $this->assertStringContainsString('storage/logos/company-logo.jpg', $experiences->first()->company_logo);
@@ -97,7 +97,7 @@ class GetPublishedExperiencesActionTest extends TestCase
             'company_logo' => null,
         ]);
 
-        $action = new GetPublishedExperiencesAction();
+        $action = new GetPublishedExperiencesAction;
         $experiences = $action->execute();
 
         $this->assertNull($experiences->first()->company_logo);
@@ -107,7 +107,7 @@ class GetPublishedExperiencesActionTest extends TestCase
     {
         Experience::factory()->count(3)->create(['is_published' => false]);
 
-        $action = new GetPublishedExperiencesAction();
+        $action = new GetPublishedExperiencesAction;
         $experiences = $action->execute();
 
         $this->assertCount(0, $experiences);

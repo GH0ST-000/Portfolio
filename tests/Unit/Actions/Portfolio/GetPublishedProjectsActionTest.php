@@ -22,7 +22,7 @@ class GetPublishedProjectsActionTest extends TestCase
             'order' => 2,
         ]);
 
-        $action = new GetPublishedProjectsAction();
+        $action = new GetPublishedProjectsAction;
         $projects = $action->execute();
 
         $this->assertCount(1, $projects);
@@ -35,7 +35,7 @@ class GetPublishedProjectsActionTest extends TestCase
         Project::factory()->create(['title' => 'Project A', 'is_published' => true, 'order' => 1]);
         Project::factory()->create(['title' => 'Project B', 'is_published' => true, 'order' => 2]);
 
-        $action = new GetPublishedProjectsAction();
+        $action = new GetPublishedProjectsAction;
         $projects = $action->execute();
 
         $this->assertEquals('Project A', $projects->first()->title);
@@ -47,7 +47,7 @@ class GetPublishedProjectsActionTest extends TestCase
         Project::factory()->create(['title' => 'Z Project', 'is_published' => true, 'order' => 1]);
         Project::factory()->create(['title' => 'A Project', 'is_published' => true, 'order' => 2]);
 
-        $action = new GetPublishedProjectsAction();
+        $action = new GetPublishedProjectsAction;
         $projects = $action->execute('title', 'asc');
 
         $this->assertEquals('A Project', $projects->first()->title);
@@ -62,7 +62,7 @@ class GetPublishedProjectsActionTest extends TestCase
             'image' => 'projects/test-image.jpg',
         ]);
 
-        $action = new GetPublishedProjectsAction();
+        $action = new GetPublishedProjectsAction;
         $projects = $action->execute();
 
         $this->assertStringContainsString('storage/projects/test-image.jpg', $projects->first()->image);
@@ -76,7 +76,7 @@ class GetPublishedProjectsActionTest extends TestCase
             'image' => null,
         ]);
 
-        $action = new GetPublishedProjectsAction();
+        $action = new GetPublishedProjectsAction;
         $projects = $action->execute();
 
         $this->assertNull($projects->first()->image);
@@ -86,7 +86,7 @@ class GetPublishedProjectsActionTest extends TestCase
     {
         Project::factory()->count(3)->create(['is_published' => false]);
 
-        $action = new GetPublishedProjectsAction();
+        $action = new GetPublishedProjectsAction;
         $projects = $action->execute();
 
         $this->assertCount(0, $projects);

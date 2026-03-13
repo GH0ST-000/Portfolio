@@ -3,12 +3,12 @@
 namespace Tests\Unit\Actions\Admin;
 
 use App\Actions\Admin\Pricing\DeletePricingAction;
-use PHPUnit\Framework\Attributes\Test;
 use App\Actions\Admin\Pricing\GetAllPricingsAction;
 use App\Actions\Admin\Pricing\StorePricingAction;
 use App\Actions\Admin\Pricing\UpdatePricingAction;
 use App\Models\Pricing;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class PricingActionsTest extends TestCase
@@ -22,7 +22,7 @@ class PricingActionsTest extends TestCase
         Pricing::factory()->create(['order' => 1, 'title' => 'First']);
         Pricing::factory()->create(['order' => 2, 'title' => 'Second']);
 
-        $action = new GetAllPricingsAction();
+        $action = new GetAllPricingsAction;
         $pricings = $action->execute();
 
         $this->assertCount(3, $pricings);
@@ -37,7 +37,7 @@ class PricingActionsTest extends TestCase
         Pricing::factory()->create(['active' => true, 'title' => 'Active']);
         Pricing::factory()->create(['active' => false, 'title' => 'Inactive']);
 
-        $action = new GetAllPricingsAction();
+        $action = new GetAllPricingsAction;
         $pricings = $action->execute();
 
         $this->assertCount(2, $pricings);
@@ -63,14 +63,14 @@ class PricingActionsTest extends TestCase
             'order' => 1,
         ];
 
-        $action = new StorePricingAction();
+        $action = new StorePricingAction;
         $pricing = $action->execute($data);
 
         $this->assertInstanceOf(Pricing::class, $pricing);
         $this->assertEquals('New Plan', $pricing->title);
         $this->assertEquals('149.99', $pricing->price);
         $this->assertTrue($pricing->recommended);
-        
+
         $this->assertDatabaseHas('pricings', [
             'title' => 'New Plan',
             'price' => '149.99',
@@ -99,13 +99,13 @@ class PricingActionsTest extends TestCase
             'order' => 2,
         ];
 
-        $action = new UpdatePricingAction();
+        $action = new UpdatePricingAction;
         $updatedPricing = $action->execute($pricing, $data);
 
         $this->assertEquals('Updated Title', $updatedPricing->title);
         $this->assertEquals('199.99', $updatedPricing->price);
         $this->assertEquals('Updated subtitle', $updatedPricing->subtitle);
-        
+
         $this->assertDatabaseHas('pricings', [
             'id' => $pricing->id,
             'title' => 'Updated Title',
@@ -132,7 +132,7 @@ class PricingActionsTest extends TestCase
             'order' => 1,
         ];
 
-        $action = new UpdatePricingAction();
+        $action = new UpdatePricingAction;
         $updatedPricing = $action->execute($pricing, $data);
 
         $this->assertEquals('New Title', $updatedPricing->title);
@@ -146,7 +146,7 @@ class PricingActionsTest extends TestCase
 
         $this->assertDatabaseHas('pricings', ['title' => 'To Delete']);
 
-        $action = new DeletePricingAction();
+        $action = new DeletePricingAction;
         $result = $action->execute($pricing);
 
         $this->assertTrue($result);
@@ -174,7 +174,7 @@ class PricingActionsTest extends TestCase
             'order' => 0,
         ];
 
-        $action = new StorePricingAction();
+        $action = new StorePricingAction;
         $pricing = $action->execute($data);
 
         $this->assertIsArray($pricing->features);
@@ -189,7 +189,7 @@ class PricingActionsTest extends TestCase
 
         $data = array_merge($pricing->toArray(), ['active' => false]);
 
-        $action = new UpdatePricingAction();
+        $action = new UpdatePricingAction;
         $updatedPricing = $action->execute($pricing, $data);
 
         $this->assertFalse($updatedPricing->active);
@@ -206,7 +206,7 @@ class PricingActionsTest extends TestCase
 
         $data = array_merge($pricing->toArray(), ['recommended' => true]);
 
-        $action = new UpdatePricingAction();
+        $action = new UpdatePricingAction;
         $updatedPricing = $action->execute($pricing, $data);
 
         $this->assertTrue($updatedPricing->recommended);

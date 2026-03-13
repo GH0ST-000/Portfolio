@@ -15,7 +15,7 @@ class DeleteUserProfileActionTest extends TestCase
 
         $this->assertDatabaseHas('users', ['email' => 'test@example.com']);
 
-        $action = new DeleteUserProfileAction();
+        $action = new DeleteUserProfileAction;
         $action->execute($user);
 
         $this->assertDatabaseMissing('users', ['email' => 'test@example.com']);
@@ -29,7 +29,7 @@ class DeleteUserProfileActionTest extends TestCase
         $this->assertTrue(Auth::check());
         $this->assertEquals($user->id, Auth::id());
 
-        $action = new DeleteUserProfileAction();
+        $action = new DeleteUserProfileAction;
         $action->execute($user);
 
         $this->assertFalse(Auth::check());
@@ -42,7 +42,7 @@ class DeleteUserProfileActionTest extends TestCase
 
         $this->assertAuthenticated();
 
-        $action = new DeleteUserProfileAction();
+        $action = new DeleteUserProfileAction;
         $action->execute($user);
 
         $this->assertGuest();

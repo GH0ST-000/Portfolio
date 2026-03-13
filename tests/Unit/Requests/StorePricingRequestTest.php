@@ -3,8 +3,8 @@
 namespace Tests\Unit\Requests;
 
 use App\Http\Requests\Admin\StorePricingRequest;
-use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Support\Facades\Validator;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class StorePricingRequestTest extends TestCase
@@ -12,7 +12,7 @@ class StorePricingRequestTest extends TestCase
     #[Test]
     public function it_validates_required_fields()
     {
-        $request = new StorePricingRequest();
+        $request = new StorePricingRequest;
         $rules = $request->rules();
 
         $data = [];
@@ -29,7 +29,7 @@ class StorePricingRequestTest extends TestCase
     #[Test]
     public function it_passes_with_valid_data()
     {
-        $request = new StorePricingRequest();
+        $request = new StorePricingRequest;
         $rules = $request->rules();
 
         $data = [
@@ -54,7 +54,7 @@ class StorePricingRequestTest extends TestCase
     #[Test]
     public function title_is_required_and_string()
     {
-        $request = new StorePricingRequest();
+        $request = new StorePricingRequest;
         $rules = $request->rules();
 
         // Test missing title
@@ -75,7 +75,7 @@ class StorePricingRequestTest extends TestCase
     #[Test]
     public function price_is_required_and_numeric()
     {
-        $request = new StorePricingRequest();
+        $request = new StorePricingRequest;
         $rules = $request->rules();
 
         // Test non-numeric price
@@ -100,7 +100,7 @@ class StorePricingRequestTest extends TestCase
     #[Test]
     public function period_must_be_valid_value()
     {
-        $request = new StorePricingRequest();
+        $request = new StorePricingRequest;
         $rules = $request->rules();
 
         // Test invalid period
@@ -129,7 +129,7 @@ class StorePricingRequestTest extends TestCase
     #[Test]
     public function features_must_be_array_of_strings()
     {
-        $request = new StorePricingRequest();
+        $request = new StorePricingRequest;
         $rules = $request->rules();
 
         // Test non-array features
@@ -169,7 +169,7 @@ class StorePricingRequestTest extends TestCase
     #[Test]
     public function optional_fields_can_be_null()
     {
-        $request = new StorePricingRequest();
+        $request = new StorePricingRequest;
         $rules = $request->rules();
 
         $data = [
@@ -192,7 +192,7 @@ class StorePricingRequestTest extends TestCase
     #[Test]
     public function recommended_must_be_boolean()
     {
-        $request = new StorePricingRequest();
+        $request = new StorePricingRequest;
         $rules = $request->rules();
 
         // Test with boolean values
@@ -220,7 +220,7 @@ class StorePricingRequestTest extends TestCase
     #[Test]
     public function active_must_be_boolean()
     {
-        $request = new StorePricingRequest();
+        $request = new StorePricingRequest;
         $rules = $request->rules();
 
         $validator = Validator::make([
@@ -237,7 +237,7 @@ class StorePricingRequestTest extends TestCase
     #[Test]
     public function order_must_be_integer_and_non_negative()
     {
-        $request = new StorePricingRequest();
+        $request = new StorePricingRequest;
         $rules = $request->rules();
 
         // Test negative order
@@ -274,14 +274,14 @@ class StorePricingRequestTest extends TestCase
     #[Test]
     public function it_has_custom_attribute_names()
     {
-        $request = new StorePricingRequest();
+        $request = new StorePricingRequest;
         $attributes = $request->attributes();
 
         $this->assertArrayHasKey('title', $attributes);
         $this->assertArrayHasKey('price', $attributes);
         $this->assertArrayHasKey('period', $attributes);
         $this->assertArrayHasKey('button_text', $attributes);
-        
+
         $this->assertEquals('pricing title', $attributes['title']);
         $this->assertEquals('price', $attributes['price']);
     }

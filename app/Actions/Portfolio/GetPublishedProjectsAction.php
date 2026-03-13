@@ -14,8 +14,9 @@ class GetPublishedProjectsAction
             ->get()
             ->map(function ($project) {
                 if ($project->image) {
-                    $project->image = asset('storage/' . $project->image);
+                    $project->image = asset('storage/'.$project->image);
                 }
+
                 return $project;
             });
     }

@@ -3,9 +3,9 @@
 namespace Tests\Unit\Actions;
 
 use App\Actions\Portfolio\GetActivePricingsAction;
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\Pricing;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class GetActivePricingsActionTest extends TestCase
@@ -18,15 +18,15 @@ class GetActivePricingsActionTest extends TestCase
         // Create active pricings
         Pricing::factory()->create(['active' => true, 'title' => 'Active 1']);
         Pricing::factory()->create(['active' => true, 'title' => 'Active 2']);
-        
+
         // Create inactive pricing
         Pricing::factory()->create(['active' => false, 'title' => 'Inactive']);
 
-        $action = new GetActivePricingsAction();
+        $action = new GetActivePricingsAction;
         $pricings = $action->execute();
 
         $this->assertCount(2, $pricings);
-        $this->assertTrue($pricings->every(fn($pricing) => $pricing->active === true));
+        $this->assertTrue($pricings->every(fn ($pricing) => $pricing->active === true));
     }
 
     #[Test]
@@ -36,7 +36,7 @@ class GetActivePricingsActionTest extends TestCase
         Pricing::factory()->create(['active' => true, 'order' => 1, 'title' => 'First']);
         Pricing::factory()->create(['active' => true, 'order' => 2, 'title' => 'Second']);
 
-        $action = new GetActivePricingsAction();
+        $action = new GetActivePricingsAction;
         $pricings = $action->execute();
 
         $this->assertEquals('First', $pricings[0]->title);
@@ -50,7 +50,7 @@ class GetActivePricingsActionTest extends TestCase
         Pricing::factory()->create(['active' => false]);
         Pricing::factory()->create(['active' => false]);
 
-        $action = new GetActivePricingsAction();
+        $action = new GetActivePricingsAction;
         $pricings = $action->execute();
 
         $this->assertCount(0, $pricings);
@@ -73,7 +73,7 @@ class GetActivePricingsActionTest extends TestCase
             'recommended' => true,
         ]);
 
-        $action = new GetActivePricingsAction();
+        $action = new GetActivePricingsAction;
         $pricings = $action->execute();
 
         $result = $pricings->first();

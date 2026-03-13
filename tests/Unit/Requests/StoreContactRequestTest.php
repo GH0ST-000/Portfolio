@@ -10,14 +10,14 @@ class StoreContactRequestTest extends TestCase
 {
     public function test_it_authorizes_all_users(): void
     {
-        $request = new StoreContactRequest();
+        $request = new StoreContactRequest;
 
         $this->assertTrue($request->authorize());
     }
 
     public function test_it_validates_required_fields(): void
     {
-        $request = new StoreContactRequest();
+        $request = new StoreContactRequest;
         $validator = Validator::make([], $request->rules());
 
         $this->assertFalse($validator->passes());
@@ -28,7 +28,7 @@ class StoreContactRequestTest extends TestCase
 
     public function test_it_passes_validation_with_valid_data(): void
     {
-        $request = new StoreContactRequest();
+        $request = new StoreContactRequest;
         $data = [
             'name' => 'John Doe',
             'email' => 'john@example.com',
@@ -43,7 +43,7 @@ class StoreContactRequestTest extends TestCase
 
     public function test_it_passes_validation_without_subject(): void
     {
-        $request = new StoreContactRequest();
+        $request = new StoreContactRequest;
         $data = [
             'name' => 'Jane Doe',
             'email' => 'jane@example.com',
@@ -57,7 +57,7 @@ class StoreContactRequestTest extends TestCase
 
     public function test_it_validates_email_format(): void
     {
-        $request = new StoreContactRequest();
+        $request = new StoreContactRequest;
         $data = [
             'name' => 'John Doe',
             'email' => 'invalid-email',
@@ -72,7 +72,7 @@ class StoreContactRequestTest extends TestCase
 
     public function test_it_validates_name_max_length(): void
     {
-        $request = new StoreContactRequest();
+        $request = new StoreContactRequest;
         $data = [
             'name' => str_repeat('a', 256),
             'email' => 'test@example.com',
@@ -87,10 +87,10 @@ class StoreContactRequestTest extends TestCase
 
     public function test_it_validates_email_max_length(): void
     {
-        $request = new StoreContactRequest();
+        $request = new StoreContactRequest;
         $data = [
             'name' => 'John Doe',
-            'email' => str_repeat('a', 250) . '@test.com',
+            'email' => str_repeat('a', 250).'@test.com',
             'message' => 'Test message.',
         ];
 
@@ -102,7 +102,7 @@ class StoreContactRequestTest extends TestCase
 
     public function test_it_validates_subject_max_length(): void
     {
-        $request = new StoreContactRequest();
+        $request = new StoreContactRequest;
         $data = [
             'name' => 'John Doe',
             'email' => 'test@example.com',
@@ -118,7 +118,7 @@ class StoreContactRequestTest extends TestCase
 
     public function test_it_validates_name_is_string(): void
     {
-        $request = new StoreContactRequest();
+        $request = new StoreContactRequest;
         $data = [
             'name' => 12345,
             'email' => 'test@example.com',
@@ -133,7 +133,7 @@ class StoreContactRequestTest extends TestCase
 
     public function test_it_has_custom_error_messages(): void
     {
-        $request = new StoreContactRequest();
+        $request = new StoreContactRequest;
         $messages = $request->messages();
 
         $this->assertArrayHasKey('name.required', $messages);

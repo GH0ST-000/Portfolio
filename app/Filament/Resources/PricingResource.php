@@ -3,24 +3,21 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PricingResource\Pages;
-use App\Filament\Resources\PricingResource\RelationManagers;
 use App\Models\Pricing;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PricingResource extends Resource
 {
     protected static ?string $model = Pricing::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
-    
+
     protected static ?string $navigationLabel = 'Pricing Plans';
-    
+
     protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form
@@ -33,12 +30,12 @@ class PricingResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->placeholder('e.g., Hourly, Freelancing, Full Time'),
-                        
+
                         Forms\Components\TextInput::make('subtitle')
                             ->maxLength(255)
                             ->placeholder('e.g., Perfect for small tasks')
                             ->columnSpan(1),
-                        
+
                         Forms\Components\TextInput::make('price')
                             ->required()
                             ->numeric()
@@ -46,7 +43,7 @@ class PricingResource extends Resource
                             ->step(0.01)
                             ->minValue(0)
                             ->placeholder('0.00'),
-                        
+
                         Forms\Components\Select::make('period')
                             ->required()
                             ->options([
@@ -56,7 +53,7 @@ class PricingResource extends Resource
                                 'project' => 'Project',
                             ])
                             ->default('week'),
-                        
+
                         Forms\Components\Textarea::make('description')
                             ->rows(3)
                             ->columnSpanFull()
@@ -89,7 +86,7 @@ class PricingResource extends Resource
                                 // Convert from array of strings to array of objects
                                 if (is_array($state)) {
                                     $component->state(
-                                        collect($state)->map(fn($item) => ['text' => $item])->toArray()
+                                        collect($state)->map(fn ($item) => ['text' => $item])->toArray()
                                     );
                                 }
                             }),
@@ -103,7 +100,7 @@ class PricingResource extends Resource
                             ->maxLength(255)
                             ->default('Order Now')
                             ->placeholder('e.g., Order Now, Get Started'),
-                        
+
                         Forms\Components\TextInput::make('button_url')
                             ->maxLength(255)
                             ->placeholder('#contact')
@@ -119,12 +116,12 @@ class PricingResource extends Resource
                             ->numeric()
                             ->default(0)
                             ->helperText('Lower numbers appear first'),
-                        
+
                         Forms\Components\Toggle::make('recommended')
                             ->label('Mark as Recommended')
                             ->helperText('Highlight this plan as recommended')
                             ->default(false),
-                        
+
                         Forms\Components\Toggle::make('active')
                             ->label('Active')
                             ->helperText('Show this pricing plan on the website')
@@ -142,17 +139,17 @@ class PricingResource extends Resource
                     ->label('#')
                     ->sortable()
                     ->width(50),
-                
+
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->weight('bold')
                     ->description(fn (Pricing $record): string => $record->subtitle ?? ''),
-                
+
                 Tables\Columns\TextColumn::make('price')
                     ->money('USD')
                     ->sortable()
                     ->label('Price'),
-                
+
                 Tables\Columns\BadgeColumn::make('period')
                     ->colors([
                         'primary' => 'hour',
@@ -160,7 +157,7 @@ class PricingResource extends Resource
                         'warning' => 'month',
                         'danger' => 'project',
                     ]),
-                
+
                 Tables\Columns\IconColumn::make('recommended')
                     ->boolean()
                     ->trueIcon('heroicon-o-star')
@@ -168,7 +165,7 @@ class PricingResource extends Resource
                     ->trueColor('warning')
                     ->falseColor('gray')
                     ->label('★'),
-                
+
                 Tables\Columns\ToggleColumn::make('active')
                     ->label('Active'),
             ])
@@ -179,7 +176,7 @@ class PricingResource extends Resource
                     ->placeholder('All')
                     ->trueLabel('Active only')
                     ->falseLabel('Inactive only'),
-                
+
                 Tables\Filters\TernaryFilter::make('recommended')
                     ->label('Recommended')
                     ->placeholder('All')

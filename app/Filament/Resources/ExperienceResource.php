@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ExperienceResource\Pages;
-use App\Filament\Resources\ExperienceResource\RelationManagers;
 use App\Models\Experience;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -27,7 +26,7 @@ class ExperienceResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->columnSpan(1),
-                        
+
                         Forms\Components\FileUpload::make('company_logo')
                             ->label('Company Logo')
                             ->image()
@@ -36,12 +35,12 @@ class ExperienceResource extends Resource
                             ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/jpg'])
                             ->columnSpan(1)
                             ->helperText('Upload PNG or JPG (max 2MB)'),
-                        
+
                         Forms\Components\TextInput::make('position')
                             ->required()
                             ->maxLength(255)
                             ->columnSpan(2),
-                        
+
                         Forms\Components\TextInput::make('company_url')
                             ->label('Company Website')
                             ->url()
@@ -50,7 +49,7 @@ class ExperienceResource extends Resource
                             ->placeholder('https://company.com'),
                     ])
                     ->columns(2),
-                
+
                 Forms\Components\Section::make('Job Details')
                     ->schema([
                         Forms\Components\RichEditor::make('description')
@@ -70,7 +69,7 @@ class ExperienceResource extends Resource
                                 'codeBlock',
                             ])
                             ->helperText('Describe your role and responsibilities'),
-                        
+
                         Forms\Components\RichEditor::make('achievements')
                             ->label('Key Achievements & Technologies')
                             ->columnSpanFull()
@@ -84,14 +83,14 @@ class ExperienceResource extends Resource
                                 'codeBlock',
                             ])
                             ->helperText('List your achievements, tech stack, and impact (use bullet points)'),
-                        
+
                         Forms\Components\DatePicker::make('start_date')
                             ->required()
                             ->columnSpan(1),
-                        
+
                         Forms\Components\DatePicker::make('end_date')
                             ->columnSpan(1),
-                        
+
                         Forms\Components\Toggle::make('is_current')
                             ->label('Currently Working Here')
                             ->columnSpan(1)
@@ -101,14 +100,14 @@ class ExperienceResource extends Resource
                                     $set('end_date', null);
                                 }
                             }),
-                        
+
                         Forms\Components\TextInput::make('location')
                             ->maxLength(255)
                             ->columnSpan(1)
                             ->placeholder('City, Country'),
                     ])
                     ->columns(2),
-                
+
                 Forms\Components\Section::make('Visibility & Order')
                     ->schema([
                         Forms\Components\TextInput::make('order')
@@ -116,7 +115,7 @@ class ExperienceResource extends Resource
                             ->default(0)
                             ->columnSpan(1)
                             ->helperText('Lower numbers appear first'),
-                        
+
                         Forms\Components\Toggle::make('is_published')
                             ->label('Published')
                             ->default(true)

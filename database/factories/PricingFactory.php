@@ -18,7 +18,7 @@ class PricingFactory extends Factory
     {
         $periods = ['hour', 'week', 'month', 'project'];
         $period = $this->faker->randomElement($periods);
-        
+
         return [
             'title' => $this->faker->randomElement(['Hourly', 'Freelancing', 'Full Time', 'Project Based']),
             'subtitle' => $this->faker->sentence(3),
@@ -26,7 +26,7 @@ class PricingFactory extends Factory
             'period' => $period,
             'description' => $this->faker->paragraph(),
             'features' => [
-                'Up to ' . $this->faker->numberBetween(10, 50) . ' hours per week',
+                'Up to '.$this->faker->numberBetween(10, 50).' hours per week',
                 'WordPress and web updates',
                 'Site backups and security',
                 'SEO optimizations',

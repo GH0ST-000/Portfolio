@@ -17,7 +17,7 @@ class StoreContactActionTest extends TestCase
             'message' => 'This is a test message.',
         ];
 
-        $action = new StoreContactAction();
+        $action = new StoreContactAction;
         $contact = $action->execute($data);
 
         $this->assertInstanceOf(Contact::class, $contact);
@@ -39,7 +39,7 @@ class StoreContactActionTest extends TestCase
             'message' => 'Message without subject.',
         ];
 
-        $action = new StoreContactAction();
+        $action = new StoreContactAction;
         $contact = $action->execute($data);
 
         $this->assertInstanceOf(Contact::class, $contact);
@@ -56,7 +56,7 @@ class StoreContactActionTest extends TestCase
             'message' => 'I have a question.',
         ];
 
-        $action = new StoreContactAction();
+        $action = new StoreContactAction;
         $contact = $action->execute($data);
 
         $this->assertTrue($contact->exists);
