@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Admin\Pricing\DeletePricingAction;
 use App\Actions\Admin\Pricing\GetAllPricingsAction;
 use App\Actions\Admin\Pricing\StorePricingAction;
 use App\Actions\Admin\Pricing\UpdatePricingAction;
-use App\Actions\Admin\Pricing\DeletePricingAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StorePricingRequest;
 use App\Http\Requests\Admin\UpdatePricingRequest;

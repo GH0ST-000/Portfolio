@@ -12,14 +12,14 @@ class DeleteProfileRequestTest extends TestCase
 {
     public function test_it_authorizes_all_users(): void
     {
-        $request = new DeleteProfileRequest();
+        $request = new DeleteProfileRequest;
 
         $this->assertTrue($request->authorize());
     }
 
     public function test_it_validates_password_is_required(): void
     {
-        $request = new DeleteProfileRequest();
+        $request = new DeleteProfileRequest;
         $validator = Validator::make([], $request->rules());
 
         $this->assertFalse($validator->passes());
@@ -34,7 +34,7 @@ class DeleteProfileRequestTest extends TestCase
 
         $this->actingAs($user);
 
-        $request = new DeleteProfileRequest();
+        $request = new DeleteProfileRequest;
         $data = ['password' => 'password123'];
 
         $validator = Validator::make($data, $request->rules());
@@ -50,7 +50,7 @@ class DeleteProfileRequestTest extends TestCase
 
         $this->actingAs($user);
 
-        $request = new DeleteProfileRequest();
+        $request = new DeleteProfileRequest;
         $data = ['password' => 'wrong-password'];
 
         $validator = Validator::make($data, $request->rules());
@@ -61,7 +61,7 @@ class DeleteProfileRequestTest extends TestCase
 
     public function test_it_validates_password_is_string(): void
     {
-        $request = new DeleteProfileRequest();
+        $request = new DeleteProfileRequest;
         $data = ['password' => 12345];
 
         $validator = Validator::make($data, $request->rules());
@@ -71,7 +71,7 @@ class DeleteProfileRequestTest extends TestCase
 
     public function test_it_has_custom_error_messages(): void
     {
-        $request = new DeleteProfileRequest();
+        $request = new DeleteProfileRequest;
         $messages = $request->messages();
 
         $this->assertArrayHasKey('password.required', $messages);
@@ -82,7 +82,7 @@ class DeleteProfileRequestTest extends TestCase
 
     public function test_it_requires_current_password_validation_rule(): void
     {
-        $request = new DeleteProfileRequest();
+        $request = new DeleteProfileRequest;
         $rules = $request->rules();
 
         $this->assertArrayHasKey('password', $rules);

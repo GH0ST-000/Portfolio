@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Experience;
 use App\Models\Project;
 use App\Models\Skill;
-use App\Models\Experience;
 use Illuminate\Database\Seeder;
 
 class PortfolioSeeder extends Seeder

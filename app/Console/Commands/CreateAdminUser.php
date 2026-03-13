@@ -20,6 +20,7 @@ class CreateAdminUser extends Command
 
         if (User::where('email', $email)->exists()) {
             $this->error('User with this email already exists!');
+
             return 1;
         }
 

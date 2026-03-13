@@ -14,8 +14,9 @@ class GetPublishedExperiencesAction
             ->get()
             ->map(function ($experience) {
                 if ($experience->company_logo) {
-                    $experience->company_logo = asset('storage/' . $experience->company_logo);
+                    $experience->company_logo = asset('storage/'.$experience->company_logo);
                 }
+
                 return $experience;
             });
     }

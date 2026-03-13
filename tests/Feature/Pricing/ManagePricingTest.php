@@ -3,9 +3,9 @@
 namespace Tests\Feature\Pricing;
 
 use App\Models\Pricing;
-use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ManagePricingTest extends TestCase
@@ -17,7 +17,7 @@ class ManagePricingTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->user = User::factory()->create();
     }
 

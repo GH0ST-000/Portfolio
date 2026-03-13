@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Contact;
 use App\Models\Experience;
 use App\Models\Project;
 use App\Models\Skill;

@@ -114,7 +114,7 @@ class PricingTest extends TestCase
             'order',
         ];
 
-        $pricing = new Pricing();
+        $pricing = new Pricing;
 
         $this->assertEquals($fillable, $pricing->getFillable());
     }
@@ -123,7 +123,7 @@ class PricingTest extends TestCase
     public function it_stores_features_as_json_in_database()
     {
         $features = ['Feature 1', 'Feature 2', 'Feature 3'];
-        
+
         $pricing = Pricing::factory()->create([
             'features' => $features,
         ]);

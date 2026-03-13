@@ -22,7 +22,7 @@ class GetPublishedSkillsActionTest extends TestCase
             'category' => 'Backend',
         ]);
 
-        $action = new GetPublishedSkillsAction();
+        $action = new GetPublishedSkillsAction;
         $skills = $action->execute();
 
         $this->assertCount(1, $skills);
@@ -36,7 +36,7 @@ class GetPublishedSkillsActionTest extends TestCase
         Skill::factory()->create(['name' => 'Vue.js', 'is_published' => true, 'category' => 'Frontend']);
         Skill::factory()->create(['name' => 'React', 'is_published' => true, 'category' => 'Frontend']);
 
-        $action = new GetPublishedSkillsAction();
+        $action = new GetPublishedSkillsAction;
         $skills = $action->execute();
 
         $this->assertCount(2, $skills);
@@ -52,7 +52,7 @@ class GetPublishedSkillsActionTest extends TestCase
         Skill::factory()->create(['name' => 'Skill A', 'is_published' => true, 'category' => 'Test', 'order' => 1]);
         Skill::factory()->create(['name' => 'Skill B', 'is_published' => true, 'category' => 'Test', 'order' => 2]);
 
-        $action = new GetPublishedSkillsAction();
+        $action = new GetPublishedSkillsAction;
         $skills = $action->execute();
 
         $testSkills = $skills['Test'];
@@ -64,7 +64,7 @@ class GetPublishedSkillsActionTest extends TestCase
     {
         Skill::factory()->count(5)->create(['is_published' => false]);
 
-        $action = new GetPublishedSkillsAction();
+        $action = new GetPublishedSkillsAction;
         $skills = $action->execute();
 
         $this->assertCount(0, $skills);
